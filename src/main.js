@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import './assets/scss/style.scss'
+import './assets/iconfont/iconfont.css'
+
 import axios from "axios";
 
 Vue.prototype.$http = axios.create({

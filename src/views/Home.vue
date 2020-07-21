@@ -1,9 +1,13 @@
 <template>
   <div class="home">
     <div class="m-3 d-flex flex-wrap jc-center" v-if="videos">
-      <div class="video px-2 mb-3" v-for="(item ,index) in videos" :key="index">
+      <div class="video px-2 mb-4" v-for="(item ,index) in videos" :key="index">
         <img :src="item.snippet.thumbnails.medium.url" />
-        <div class="title ellipsis two-line p-1">{{item.snippet.title}}</div>
+        <div class="d-flex p-1">
+          <div class="title ellipsis two-line flex-1">{{item.snippet.title}}</div>
+          <span class="iconfont icon-heart pl-2 fs-xxl"></span>
+          <!-- <span class="iconfont icon-heart1"></span> -->
+        </div>
         <div class="channel-title p-1">{{item.snippet.channelTitle}}</div>
         <div class="d-flex p-1">
           <span class="flex-1">上傳日期:{{item.snippet.publishedAt | date}}</span>
@@ -48,7 +52,7 @@
         } else if (digit >= 8) {
           return Math.floor(val / Math.pow(10, 8)) + "億次";
         } else {
-          return val + '次';
+          return val + "次";
         }
       },
       getDigit(integer) {
@@ -77,25 +81,27 @@
     white-space: normal;
   }
 }
-
+.iconfont{
+  &.icon-heart1{
+    color:red;
+  }
+}
 .home {
-
-    .video {
-      width: 25%;
-      // padding: 10px;
-      img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
+  .video {
+    width: 25%;
+    // padding: 10px;
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+    div {
+      &.title {
+        font-weight: bold;
       }
-      div {
-        &.title {
-          font-weight: bold;
-        }
-        &.channel-title {
-        }
+      &.channel-title {
       }
     }
-  
+  }
 }
 </style>

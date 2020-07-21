@@ -38,7 +38,7 @@ p {
 
 @each $sizeKey, $size in $font-sizes {
   .fs-#{$sizeKey} {
-    font-size: $size * $base-font-size;
+    font-size: $size * $base-font-size !important;
   }
 }
 
