@@ -1,23 +1,37 @@
 <template>
-  <div class="collect">收藏頁</div>
+  <div class="collect">
+    <VideoCard :videos="videos"></VideoCard>
+  </div>
 </template>
 
 <script>
+  import VideoCard from "../components/videoCard";
   export default {
+    components: {
+      VideoCard
+    },
+    data() {
+      return {
+        videos: null
+      };
+    },
     created() {
-      console.log("in ");
-      this.$http.get(
-        "videos",
-        {
+      let favId = JSON.parse(localStorage.id);
+      if (favId.length <= 0) return;
+      this.fetchFavVideo({ id: favId.join(",") }).then(res => {
+        this.videos = res.data.items;
+      });
+    },
+    methods: {
+      fetchFavVideo(id) {
+        return this.$http.get("videos", {
           params: {
-            part: "snippet",
-            maxResults: "12",
-            chart: "mostPopular",
+            part: "snippet,statistics",
+            ...id,
             key: "AIzaSyAV_riwJ0Ow9XM9CaO3w2_2BDrxkU9rTEU"
           }
-        }
-        // "videos?part=snippet,contentDetails,topicDetails&chart=mostPopular&maxResults=12&key=AIzaSyAV_riwJ0Ow9XM9CaO3w2_2BDrxkU9rTEU"
-      );
+        });
+      }
     }
   };
 </script>
