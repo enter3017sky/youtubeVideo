@@ -2,14 +2,14 @@
   <div class="home">
     <VideoCard :videos="videos"></VideoCard>
     <div class="text-center">
-      <paginate
+      <!-- <paginate
         :page-count="20"
         :click-handler="functionName"
         :prev-text="'Prev'"
         :next-text="'Next'"
         :container-class="'pagination'"
         :page-class="'page-item'"
-      >></paginate>
+      >></paginate> -->
     </div>
   </div>
 </template>
@@ -42,23 +42,6 @@
       }
     },
     methods: {
-      // IsFav(id) {
-      //   // if(localStorage.id)
-      //   return localStorage.id.includes(id);
-      // },
-      // toggleFavorite(id) {
-      //   if (!localStorage.getItem("id")) {
-      //     localStorage.setItem("id", JSON.stringify([]));
-      //   }
-      //   let idArray = JSON.parse(localStorage.id);
-      //   if (idArray.indexOf(id) > -1) {
-      //     idArray.splice(idArray.indexOf(id), 1); // 移除
-      //   } else {
-      //     idArray.push(id); // 加入
-      //   }
-      //   localStorage.id = JSON.stringify(idArray);
-      //   this.$forceUpdate()
-      // },
       fetchVideo() {
         return this.$http.get("videos", {
           params: {
@@ -72,24 +55,6 @@
           }
         });
       }
-      // views(val) {
-      //   let digit = this.getDigit(val);
-      //   if (digit >= 4) {
-      //     return Math.floor(val / Math.pow(10, 4)) + "萬次";
-      //   } else if (digit >= 8) {
-      //     return Math.floor(val / Math.pow(10, 8)) + "億次";
-      //   } else {
-      //     return val + "次";
-      //   }
-      // },
-      // getDigit(integer) {
-      //   let digit = -1;
-      //   while (integer >= 1) {
-      //     digit++;
-      //     integer = integer / 10;
-      //   }
-      //   return digit;
-      // }
     }
   };
 </script>

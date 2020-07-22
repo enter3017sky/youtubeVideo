@@ -28,6 +28,11 @@
   import dayjs from "dayjs";
 
   export default {
+    data() {
+      return {
+        ids: JSON.parse(localStorage.getItem("id")) || []
+      };
+    },
     filters: {
       date(val) {
         return dayjs(val).format("YYYY/MM/DD");
@@ -36,23 +41,20 @@
     props: {
       videos: { type: Object, required: true }
     },
+    computed: {
+    },
     methods: {
       IsFav(id) {
-        // if(localStorage.id)
-        return localStorage.id.includes(id);
+        return this.ids.includes(id);
       },
       toggleFavorite(id) {
-        if (!localStorage.getItem("id")) {
-          localStorage.setItem("id", JSON.stringify([]));
-        }
-        let idArray = JSON.parse(localStorage.id);
-        if (idArray.indexOf(id) > -1) {
-          idArray.splice(idArray.indexOf(id), 1); // 移除
+        const { ids } = this;
+        if (ids.indexOf(id) > -1) {
+          ids.splice(ids.indexOf(id), 1); // 移除
         } else {
-          idArray.push(id); // 加入
+          ids.push(id);
         }
-        localStorage.id = JSON.stringify(idArray);
-        this.$forceUpdate();
+        localStorage.id = JSON.stringify(ids); // 更新localStorage
       },
       views(val) {
         let digit = this.getDigit(val);
