@@ -39,7 +39,7 @@
       }
     },
     props: {
-      videos: { type: Object, required: true }
+      videos: { type: Array, required: true }
     },
     computed: {
     },

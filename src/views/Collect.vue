@@ -1,6 +1,6 @@
 <template>
   <div class="collect">
-    <VideoCard :videos="videos"></VideoCard>
+    <VideoCard :videos="videos" v-if="videos"></VideoCard>
   </div>
 </template>
 
