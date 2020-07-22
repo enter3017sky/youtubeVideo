@@ -2,12 +2,15 @@
   <div class="home">
     <div class="video-wrap m-3 d-flex flex-wrap jc-center" v-if="videos">
       <div class="video px-2 mb-4" v-for="(item ,index) in videos" :key="index">
-        <div>
+        <div class="h-100">
           <img :src="item.snippet.thumbnails.medium.url" />
-          <div class="d-flex p-1">
+          <div class="d-flex p-1 ai-center">
             <div class="title ellipsis two-line flex-1">{{item.snippet.title}}</div>
-            <span class="iconfont icon-heart pl-2 fs-xxl"></span>
-            <!-- <span class="iconfont icon-heart1"></span> -->
+            <span
+              class="iconfont pl-2 icon-heart"
+              :class="{'icon-heart1':IsFav(item.id)}"
+              @click="toggleFavorite(item.id)"
+            ></span>
           </div>
           <div class="channel-title p-1">{{item.snippet.channelTitle}}</div>
           <div class="d-flex p-1">
@@ -52,10 +55,9 @@
     //   console.log(window.innerWidth);
     // },
     created() {
-      this.fetchVideo()
-        .then(res => {
-          this.videos = res.data.items;
-        });
+      this.fetchVideo().then(res => {
+        this.videos = res.data.items;
+      });
     },
     computed: {
       width() {
@@ -63,16 +65,35 @@
       }
     },
     methods: {
+      IsFav(id) {
+        // if(localStorage.id)
+        return localStorage.id.includes(id);
+      },
+      toggleFavorite(id) {
+        if (!localStorage.getItem("id")) {
+          localStorage.setItem("id", JSON.stringify([]));
+        }
+        let idArray = JSON.parse(localStorage.id);
+        if (idArray.indexOf(id) > -1) {
+          idArray.splice(idArray.indexOf(id), 1); // 移除
+        } else {
+          idArray.push(id); // 加入
+        }
+        localStorage.id = JSON.stringify(idArray);
+        this.$forceUpdate()
+      },
       fetchVideo() {
-        return this.$http
-        .get("videos", {
+        return this.$http.get("videos", {
           params: {
             part: "snippet,statistics",
             maxResults: "12",
             chart: "mostPopular",
+            regionCode: "TW",
+            // pageToken:'CAQQAA',  // 第五部開始
+            // id:'1n5JTIZi5rI,vaxp4jo2tmA', // 不能跟chart共存
             key: "AIzaSyAV_riwJ0Ow9XM9CaO3w2_2BDrxkU9rTEU"
           }
-        })
+        });
       },
       views(val) {
         let digit = this.getDigit(val);
@@ -110,8 +131,14 @@
   }
 }
 .iconfont {
+  font-size: 2rem !important;
+  transition: 0.2s;
   &.icon-heart1 {
     color: red;
+  }
+  &:hover {
+    transform: scale(1.2);
+    transition: 0.1s;
   }
 }
 .home {
@@ -121,9 +148,9 @@
       width: 25%;
       > div {
         padding: 5px;
-        box-shadow: 0 3px 16px rgba(0, 0, 0, 0.03);
+        box-shadow: 0.2308rem 0.2308rem 1.2308rem rgba(0, 0, 0, 0.03);
         border: 1px solid map-get($colors, "light-1");
-        height: 300px;
+        border-radius: 0.3846rem;
       }
 
       img {
