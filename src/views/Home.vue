@@ -20,14 +20,16 @@
         </div>
       </div>
     </div>
-    <paginate
-      :page-count="20"
-      :click-handler="functionName"
-      :prev-text="'Prev'"
-      :next-text="'Next'"
-      :container-class="'pagination'"
-    :page-class="'page-item'">
-    ></paginate>
+    <div class="text-center">
+      <paginate
+        :page-count="20"
+        :click-handler="functionName"
+        :prev-text="'Prev'"
+        :next-text="'Next'"
+        :container-class="'pagination'"
+        :page-class="'page-item'"
+      >></paginate>
+    </div>
   </div>
 </template>
 
@@ -50,11 +52,7 @@
     //   console.log(window.innerWidth);
     // },
     created() {
-      this.$http
-        .get(
-          // "search?part=snippet&key=AIzaSyAV_riwJ0Ow9XM9CaO3w2_2BDrxkU9rTEU&type=video&maxResults=12"
-          "videos?part=snippet,contentDetails,topicDetails,statistics&chart=mostPopular&maxResults=8&key=AIzaSyAV_riwJ0Ow9XM9CaO3w2_2BDrxkU9rTEU"
-        )
+      this.fetchVideo()
         .then(res => {
           this.videos = res.data.items;
         });
@@ -65,6 +63,17 @@
       }
     },
     methods: {
+      fetchVideo() {
+        return this.$http
+        .get("videos", {
+          params: {
+            part: "snippet,statistics",
+            maxResults: "12",
+            chart: "mostPopular",
+            key: "AIzaSyAV_riwJ0Ow9XM9CaO3w2_2BDrxkU9rTEU"
+          }
+        })
+      },
       views(val) {
         let digit = this.getDigit(val);
         if (digit >= 4) {
